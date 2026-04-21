@@ -175,7 +175,7 @@ int main()
                 w=w->next;
                 prev=prev->next;
             }
-            if (count!=0) //here to delete it
+            if (count!=0) 
             {
                 s=push(s,w->text,w->num,1);
                 prev->next=w->next;
