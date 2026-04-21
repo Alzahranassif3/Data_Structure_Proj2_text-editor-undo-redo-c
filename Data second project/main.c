@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-/*Al-zahra Ahmad Nassif
-1220168
-sec 1 */
+
 void displayMainMenu();
 struct node* makeEmpty(struct node* L);
 struct Queue* makeEmptyQ(struct Queue* L);
@@ -67,12 +65,12 @@ int main()
         case 3:
             printf("Enter the string you want to insert it: \n");
             getchar();
-            gets(sent);//in case the user entered more than one word
-            char*ptr=strtok(sent," ");//to cut the sentence based on the space
+            gets(sent);
+            char*ptr=strtok(sent," ");
             while (ptr!=NULL)
             {
-                Q = enqueue(Q,ptr);//insert the words on the queue
-                ptr=strtok(NULL," ");// to cut the next word
+                Q = enqueue(Q,ptr);
+                ptr=strtok(NULL," ");
             }
             printf("select where you want to insert it:\n");
             int sel=0;
@@ -83,25 +81,25 @@ int main()
             if (sel==1)
             {
                 int n=1;
-                struct Queue*res;//i use it to save the word after delete it from the queue
+                struct Queue*res;
                 struct node*p=makeEmpty(p);
                 struct node*head=p;
-                while (Q->next!=NULL) //while queue not empty
+                while (Q->next!=NULL) 
                 {
                     res=NULL;
-                    res=dequeue(Q);//dequeue the word from the queue
-                    s=push(s,res->str,n,0);//push the deleted word to the stack
+                    res=dequeue(Q);
+                    s=push(s,res->str,n,0);
 
-                    struct node*x= putNewNode(res->str,n);//put the word in a node so i can insert it to the linked list
-                    Insertt(p,x);//insert the new node to the linked list
-                    p = p->next;//move the pointer to the next node in the list so the next insert operation done after it
-                    n++;// n mean the position of the word in the linked list
+                    struct node*x= putNewNode(res->str,n);
+                    Insertt(p,x);
+                    p = p->next;
+                    n++;
                 }
                 //add the string to the original list m
-                head=head->next;//اول كلمة في السترينغ اللي بدنا نضيفها
-                p->next=m->next;//بي اللي هي بتأشر على اخر كلمة
+                head=head->next;
+                p->next=m->next;
                 m->next=head;
-                newPos(m);//update the position after the insertion
+                newPos(m);
 
 
             }
@@ -114,8 +112,8 @@ int main()
                     res=NULL;
                     res=dequeue(Q);
                     s=push(s,res->str,-1,0);
-                    struct node*x= putNewNode(res->str,0);//the above as same as sel==1 the different in the insertion below
-                    while (head->next!=NULL)head=head->next;//to make the pointer point to the last node so we can insert after it
+                    struct node*x= putNewNode(res->str,0);
+                    while (head->next!=NULL)head=head->next;
                     x->next=head->next;
                     head->next=x;
                 }
@@ -131,7 +129,7 @@ int main()
                 while (t->next!=NULL)
                 {
                     t=t->next;
-                    if (num==t->num) //found the node i want to insert after it
+                    if (num==t->num)
                     {
                         struct Queue*res;
                         struct node*p=makeEmpty(p);
@@ -146,7 +144,7 @@ int main()
                             Insertt(p,x);
                             p = p->next;
                         }
-                        head=head->next;//اول كلمة في السترينغ اللي بدنا نضيفها
+                        head=head->next;
                         p->next=t->next;
                         t->next=head;
                         r++;
@@ -155,9 +153,9 @@ int main()
                 }
 
                 newPos(m);
-                if (r==0) printf("Not found!");//if the loop end and r still 0 this means that there is no word match what the user entered
+                if (r==0) printf("Not found!");
             }
-            else printf("Not found !");//in case the operation was not 0 or 1 (insert or delete )
+            else printf("Not found !");
 
             break;
         case 4:
@@ -168,8 +166,8 @@ int main()
             int count=0;
             while (w!=NULL)
             {
-                int  n = strcasecmp(del,w->text);//to find the word
-                if (n == 0) //if you found increment the count and break because we want to delete the first occurance
+                int  n = strcasecmp(del,w->text);
+                if (n == 0) 
                 {
                     count++;
                     break;
@@ -193,23 +191,23 @@ int main()
            struct UndoStack*sa =s->next;
             op=sa->state;
             i =sa->index;
-            struct node* pre=m;//pointer to the previous of the node
-            struct node*d=pre->next;//pointer to
-            if (op==0) //mean insert,and it has three cases at first at last at middle
+            struct node* pre=m;
+            struct node*d=pre->next;
+            if (op==0) 
             {
-                if (i==-1)  //at last
+                if (i==-1)  
                 {
                     while(d->next!=NULL)
                     {
-                        d=d->next;    //loop to point to the last node
+                        d=d->next;   
                         pre=pre->next;
                     }
                     pre->next=NULL;
-                    Redo=push(Redo,sa->addedStr,sa->index,sa->state);//push to redo
-                    s=pop(s);//pop from undo
-                    free(d);//delete it
+                    Redo=push(Redo,sa->addedStr,sa->index,sa->state);
+                    s=pop(s);
+                    free(d);
                 }
-                else  //case at first or middle
+                else 
                 {
                     while(d->next!=NULL)
                     {
@@ -227,17 +225,17 @@ int main()
                     }
                 }
             }
-            else  //here op =1 mean the operation was delete so in undo we need to insert it
+            else  
             {
-                struct node* a=putNewNode(sa->addedStr,i);//put the word in a node so i can insert it to the list
+                struct node* a=putNewNode(sa->addedStr,i);
                 while(d!=NULL)
                 {
-                    if (d->num==i) //if you find where it was then insert it
+                    if (d->num==i) 
                     {
                         pre->next=a;
                         a->next=d;
-                        Redo=push(Redo,sa->addedStr,sa->index,sa->state);//push to Redo
-                        s=pop(s);//pop from undo
+                        Redo=push(Redo,sa->addedStr,sa->index,sa->state);
+                        s=pop(s);
                         break;
                     }
                     d=d->next;
@@ -251,16 +249,16 @@ int main()
             else printf("undo stack is Empty!\n");
             break;
 
-        case 6://this case same as undo but the difference if the operation was insert then insert it again insted of deleting it and if it was delete delete it again insted of insert it as undo do
+        case 6:
             if (Redo->next!=NULL){
             struct UndoStack*ra =Redo->next;
             op =ra->state;
             i6 =ra->index;
             struct node* pre6=m;
             struct node*d6=pre6->next;
-            if (op==0) //mean insert
+            if (op==0) 
             {
-                if (i6==-1)  //insert at last
+                if (i6==-1)  
                 {
                     while(pre6->next!=NULL)
                     {
@@ -269,10 +267,10 @@ int main()
                     struct node* a=putNewNode(ra->addedStr,i6);
                     a->next=pre6->next;
                     pre6->next=a;
-                    s=push(s,ra->addedStr,ra->index,ra->state);//here push to the undo
-                    Redo=pop(Redo);//pop from Redo
+                    s=push(s,ra->addedStr,ra->index,ra->state);
+                    Redo=pop(Redo);
                 }
-                else //insert at first or middle based on the index
+                else 
                 {
                     struct node* a=putNewNode(ra->addedStr,i6);
                     while(d6!=NULL)
@@ -290,7 +288,7 @@ int main()
                     }
                 }
             }
-            else  //op=1 mean delete
+            else  
             {
                 while(d6->next!=NULL)
                 {
@@ -457,7 +455,7 @@ struct Queue* enqueue(struct Queue* Q, char t[50])
         printf("Queue Not Found..\n");
         return;
     }
-    if(Q->next==NULL) //يعني اذا كانت فاضية بس قيها الهيد دغري بنضيف
+    if(Q->next==NULL) 
     {
         newNode->next=Q->next;
         Q->next=newNode;
@@ -466,7 +464,7 @@ struct Queue* enqueue(struct Queue* Q, char t[50])
     else
     {
         while(Q->next != NULL)
-            Q=Q->next; //اوجدنا rear عشان يضيف عليه
+            Q=Q->next; 
         newNode->next=Q->next;
         Q->next=newNode;
         return temp;
@@ -478,7 +476,7 @@ struct Queue* dequeue(struct Queue* Q)
     struct Queue* front=Q->next;
 
     struct Queue* res=makeEmptyQ(res);
-    strcpy(res->str,front->str);//عشان اعرف ارجع قيمة اللي انحذفت حتى ادخلها على الستاك
+    strcpy(res->str,front->str);
     if(Q==NULL)
     {
         printf("Not Found!\n");
@@ -489,12 +487,12 @@ struct Queue* dequeue(struct Queue* Q)
         printf("Queue is empty!\n");
         return;
     }
-    else if(Q->next->next==NULL)   //has one element
+    else if(Q->next->next==NULL)  
     {
         Q->next=front->next;
         free(front);
     }
-    else //عندها اكثر من عنصرين
+    else 
     {
         Q->next=front->next;
         free(front);
@@ -531,29 +529,29 @@ struct UndoStack* pop(struct UndoStack* top)
 }
 void printStackpoppush(struct UndoStack* s)
 {
-    struct UndoStack* S=s->next;// the first node after the header (the top of s)
-    if(s->next==NULL)//check if the stack is empty
+    struct UndoStack* S=s->next;
+    if(s->next==NULL)
     {
         printf("Stack is empty, nothing to print!\n");
         return;
     }
-    struct UndoStack* temp=makeEmptyS(temp);//new stack temp
-    while (s->next!=NULL)//while the list is not empty
+    struct UndoStack* temp=makeEmptyS(temp);
+    while (s->next!=NULL)
     {
-        temp=push(temp,S->addedStr,S->index,S->state);//push the first node after the header (top of s) to temp
+        temp=push(temp,S->addedStr,S->index,S->state);
         printf("%s ",S->addedStr);
         if (S->state==0)
             printf("Insert   ");
         else
             printf("remove   ");
         printf("%d\n",S->index);
-        s=pop(s);//delete the top so we can reach the next node to print it
-        S=s->next;//the new node that after the header
-    }//at the end of this loop s will be empty so we need to fill it again
+        s=pop(s);
+        S=s->next;
+    }
     struct UndoStack*T=temp->next;
     while(temp->next!=NULL){
 
-        s=push(s,T->addedStr,T->index,T->state);//push to s so it come back as it was before the loop above
+        s=push(s,T->addedStr,T->index,T->state);
         temp=pop(temp) ;
         T=temp->next;
     }
